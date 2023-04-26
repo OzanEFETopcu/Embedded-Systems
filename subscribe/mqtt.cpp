@@ -32,35 +32,35 @@ void mqtt::on_subscribe(int mid, int qos_count, const int *granted_qos){
 ////////////////  ON MESSAGE  ////////////////
 void mqtt::on_message(const struct mosquitto_message *message){
 
+    printf("\033[29;0H");
     std::string mqtt_message;
 
     printf("\n ================ Message Received ================ \n");
     mqtt_message = (char*) message->payload;
     printf("Message is = %s\n", mqtt_message.c_str()) ;
+    printf("\033[8;9H");
 
     ///// Parsing /////
+    int number;
     std::string json_in = mqtt_message.c_str();
     std::string parse_out;
-    int number;
     Json::Reader reader;
     Json::Value obj;
 
     if(reader.parse(json_in, obj)==true){ //check if parsing is OK
 
         //Check mqtt message content
-        // is there string value in car tag in message //
-
-        if(obj["TFL"]==1){
-            parse_out=obj["TFL"].asInt();
-            printf(" RED\n");
+        if(obj.isMember("Dist")){
+            parse_out=obj["Dist"].asString();
+            int dist = std::stoi(parse_out);
+            printf("\033[8;9H");
+            printf("%d\n", dist);
         }
-        if(obj["TFL"]==2){
-            parse_out=obj["TFL"].asInt();
-            printf(" YELLOW\n");
-        }
-        if(obj["TFL"]==3){
-            parse_out=obj["TFL"].asInt();
-            printf(" GREEN\n");
+        if(obj.isMember("Comp")){
+            parse_out=obj["Comp"].asString();
+            int comp = std::stoi(parse_out);
+            printf("\033[8;44H");
+            printf("%d\n", comp);
         }
 
     }else{

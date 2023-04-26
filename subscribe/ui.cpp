@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include "ui.h"
 using namespace std;
 
 void print_window(int row_start, int column_start);
@@ -9,25 +10,6 @@ void print_square(int colour, int row_start, int row_end, int column_start, int 
 void print_row(int colour, int row, int column, int spaces);
 void print_window_heading(string text, int row, int column);
 string get_user_input(int row, int column);
-
-int main() {
-    // Print three terminal windows
-    print_window(5, 5);
-    print_window(5, 40);
-    print_window(15, 25);
-
-    // Print heading for terminal windows
-    print_window_heading("Distance", 5, 7);
-    print_window_heading("Compass", 5, 42);
-    print_window_heading("Enter Command", 15, 27);
-
-    get_user_input(17, 28);
-
-    printf("\033[30;0H"); // move cursor to row and column
-
-    cout << endl;
-    return 0;
-}
 
 // Print command window with header, border and inner square
 void print_window(int row_start, int column_start) {
