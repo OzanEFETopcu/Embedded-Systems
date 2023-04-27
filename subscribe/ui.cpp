@@ -50,8 +50,8 @@ void print_window_heading(string text, int row, int column) {
 }
 
 // Get user input
-string get_user_input(int row, int column) {
-    string user_input = "";
+std::string get_user_input(int row, int column) {
+    std::string user_input = "";
     printf("\033[30;104m"); // set text to black, blue background
     printf("\33[%i;%iH", row, column); // move cursor to row and column
     cout << ">";

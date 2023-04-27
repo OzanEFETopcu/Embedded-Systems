@@ -50,21 +50,27 @@ void mqtt::on_message(const struct mosquitto_message *message){
     if(reader.parse(json_in, obj)==true){ //check if parsing is OK
 
         //Check mqtt message content
-        if(obj.isMember("Dist")){
-            parse_out=obj["Dist"].asString();
-            int dist = std::stoi(parse_out);
+        if(obj.isMember("lidar")){
+            parse_out=obj["lidar"].asInt();
             printf("\033[8;9H");
-            printf("%d\n", dist);
+            printf("%d\n", parse_out);
         }
-        if(obj.isMember("Comp")){
-            parse_out=obj["Comp"].asString();
-            int comp = std::stoi(parse_out);
+        if(obj.isMember("compass")){
+            parse_out=obj["compass"].asInt();
             printf("\033[8;44H");
-            printf("%d\n", comp);
+            printf("%d\n", parse_out);
         }
 
     }else{
         printf("----------------- Error parsing JSON -----------------\n");
     };
     ///////////////////////////////////
+};
+
+
+////////// send MQTT message //////////
+bool mqtt::send_message(std::string message)
+{
+    int ret = publish(NULL, out_topic, message.length(), message.c_str(),1,true);
+    return(ret == MOSQ_ERR_SUCCESS);
 };

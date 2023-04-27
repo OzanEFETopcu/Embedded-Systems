@@ -22,10 +22,10 @@ int main(int argc, char *argv[]) {
 
     printf("\033[25;0H"); // move cursor to row and column
     mqtt mqtt_obj(host_addr, port_number); //start mqtt
-    usleep(100000);
+    usleep(1000000);
     string user_input = get_user_input(18, 28);
+    mqtt_obj.send_message(user_input); //Publish message
     printf("\33[20;28H");
-
     };
     return 0;
 }
