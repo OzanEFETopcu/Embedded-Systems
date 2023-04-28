@@ -15,9 +15,9 @@ mqtt::mqtt(const char *host, int port){
 
 ////////////////  ON CONNECT ////////////////
 void mqtt::on_connect(int rc){
+    printf("\033[29;0H");
     printf("*****   MQTT CONNECTED with code= %d  *****\n", rc);
     if(rc == 0){
-        /*  Only attempt to subscribe on a successful connection  */
         subscribe(NULL, in_topic);
         printf("*****   SUBSCRIBED to topic= %s  *****\n", in_topic);
     };
@@ -26,11 +26,12 @@ void mqtt::on_connect(int rc){
 
 ////////////////  ON SUBSCRIBE  ////////////////
 void mqtt::on_subscribe(int mid, int qos_count, const int *granted_qos){
+    printf("\033[31;0H");
     printf("*****   MQTT Topic subscription succeeded.  *****\n");
 };
 
 ////////////////  ON MESSAGE  ////////////////
-void mqtt::on_message(const struct mosquitto_message *message){
+/*void mqtt::on_message(const struct mosquitto_message *message){
 
     printf("\033[29;0H");
     std::string mqtt_message;
@@ -41,7 +42,7 @@ void mqtt::on_message(const struct mosquitto_message *message){
     printf("\033[8;9H");
 
     ///// Parsing /////
-    int number;
+    int number, dist, comp;
     std::string json_in = mqtt_message.c_str();
     std::string parse_out;
     Json::Reader reader;
@@ -51,21 +52,21 @@ void mqtt::on_message(const struct mosquitto_message *message){
 
         //Check mqtt message content
         if(obj.isMember("lidar")){
-            parse_out=obj["lidar"].asInt();
+            dist=obj["lidar"].asInt();
             printf("\033[8;9H");
-            printf("%d\n", parse_out);
+            printf("%d\n",dist);
         }
         if(obj.isMember("compass")){
-            parse_out=obj["compass"].asInt();
+            comp=obj["compass"].asInt();
             printf("\033[8;44H");
-            printf("%d\n", parse_out);
+            printf("%d\n",comp);
         }
-
     }else{
         printf("----------------- Error parsing JSON -----------------\n");
-    };
+    }
+    fflush(stdout);
     ///////////////////////////////////
-};
+};*/
 
 
 ////////// send MQTT message //////////
